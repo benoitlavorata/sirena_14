@@ -1,0 +1,41 @@
+<odoo>
+    <record id="is_dashboard_widget_group_security_form" model="ir.ui.view">
+        <field name="name">is.dashboard.widget.group_security.form</field>
+        <field name="model">is.dashboard.widget.group_security</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="name"/>
+                    <field name="group_ids" widget="many2many_tags"/>
+                    <field name="group_exclude_ids" widget="many2many_tags"/>
+                    <field name="widget_id" invisible="1"/>
+                    <field name="query_number" invisible="1"/>
+                    <field name="model_id_name" invisible="1"/>
+                    <field name="locked" invisible="1"/>
+                </group>
+                <group>
+                    <field string="Advanced Mode" name="domain_hide_widget" />
+                    <field name="model_id_name" invisible="1"/>
+                    <field string="Filter" name="domain" attrs="{'invisible': [('domain_hide_widget', '=', False)], 'readonly': [('locked', '=', True)]}" />
+                    <field string="Filter" name="domain_widget" widget="domain" options="{'model': 'model_id_name'}" attrs="{'invisible': [('domain_hide_widget', '=', True)], 'readonly': [('locked', '=', True)]}" />
+                </group>
+                <group>
+                    <field name="note" nolabel="1"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="is_dashboard_widget_group_security_tree" model="ir.ui.view">
+        <field name="name">is.dashboard.widget.group_security.tree</field>
+        <field name="model">is.dashboard.widget.group_security</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="query_number" invisible="1"/>
+                <field name="group_ids" widget="many2many_tags"/>
+                <field name="group_exclude_ids" widget="many2many_tags"/>
+            </tree>
+        </field>
+    </record>
+</odoo>

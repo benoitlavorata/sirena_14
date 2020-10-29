@@ -1,0 +1,40 @@
+<odoo>
+    <record id="wudget_type_kpi" model="is.dashboard.widget.type">
+        <field name="sequence" eval="10"/>
+        <field name="name">KPI Card</field>
+        <field name="type">card</field>
+        <field name="preview_image_url">/dashboard_widgets/static/src/img/widget_types/card.png</field>
+    </record>
+
+    <record id="wudget_type_chart" model="is.dashboard.widget.type">
+        <field name="sequence" eval="20"/>
+        <field name="name">Chart/Graph</field>
+        <field name="type">graph</field>
+        <field name="preview_image_url">/dashboard_widgets/static/src/img/widget_types/graph.png</field>
+    </record>
+
+    <record id="wudget_type_table" model="is.dashboard.widget.type">
+        <field name="sequence" eval="30"/>
+        <field name="name">Table</field>
+        <field name="type">table</field>
+        <field name="preview_image_url">/dashboard_widgets/static/src/img/widget_types/table.png</field>
+        <field name="default_size_x" eval="4"/>
+    </record>
+
+    <record id="wudget_type_record_list" model="is.dashboard.widget.type">
+        <field name="sequence" eval="40"/>
+        <field name="name">Record List</field>
+        <field name="type">record_list</field>
+        <field name="preview_image_url">/dashboard_widgets/static/src/img/widget_types/record_list.png</field>
+        <field name="default_size_x" eval="4"/>
+    </record>
+
+    <record id="wudget_type_embedded" model="is.dashboard.widget.type">
+        <field name="sequence" eval="50"/>
+        <field name="name">Embedded Content</field>
+        <field name="type">embed_html</field>
+        <field name="preview_image_url">/dashboard_widgets/static/src/img/widget_types/embed_html.png</field>
+        <field name="default_size_x" eval="5"/>
+        <field name="default_size_y" eval="5"/>
+    </record>
+</odoo>

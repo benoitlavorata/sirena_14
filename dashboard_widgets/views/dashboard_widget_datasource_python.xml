@@ -1,0 +1,79 @@
+<odoo>
+    <record id="view_is_dashboard_form_python" model="ir.ui.view">
+        <field name="name">view_is_dashboard_form_python</field>
+        <field name="model">is.dashboard.widget</field>
+        <field name="inherit_id" ref="view_is_dashboard_form_count"/>
+        <field name="arch" type="xml">
+            <page name="query_1" position="after">
+                <page name="query_1_python" string="Python" attrs="{'invisible': [('datasource', '!=', 'python')]}">
+                    <group>
+                        <field name="query_1_config_python" attrs="{'invisible': [('datasource', '!=', 'python')]}" nolabel="1" widget="ace" options="{'mode': 'python'}" />
+                        <div colspan="2" class="alert alert-info" role="alert" attrs="{'invisible': [('datasource', '!=', 'python')]}">
+                            <p>
+                                <strong>Locals:</strong> Use the following variables to retrieve data required to update the dashboard item
+                                <ul>
+                                    <li>dashboard</li>
+                                    <li>model</li>
+                                    <li>date_range_start</li>
+                                    <li>date_range_end</li>
+                                    <br/>
+                                    <li>dom1</li>
+                                    <li>dom2</li>
+                                    <br/>
+                                    <li>env</li>
+                                    <li>datetime</li>
+                                    <li>dateutil</li>
+                                    <br />
+                                    <li>DEFAULT_SERVER_DATE_FORMAT</li>
+                                    <li>DEFAULT_SERVER_DATETIME_FORMAT</li>
+                                    <br />
+                                    <li>
+                                        get_date_range(model, field, range_type, date_range_x=0)
+                                        <p>
+                                            <strong>Returns: </strong>start, end, is_datetime
+                                        </p>
+                                        <p>
+                                            <strong>date_range_x: </strong>
+                                            Last 'x' days, months, years, etc
+                                        </p>
+                                        <p>
+                                            <strong>Range Type: </strong>
+                                            <field name="help_date_range_types_display"/>
+                                        </p>
+
+                                    </li>
+                                </ul>
+                            </p>
+                            <p>
+                                <strong>Return:</strong> Write to the following variables to update the dashboard item
+                                <ul>
+                                    <li>count</li>
+                                    <li>total</li>
+                                    <li>table</li>
+                                </ul>
+                            </p>
+                            <p>
+                                <strong>Python Table Example</strong><br/>
+                                <pre>
+table = {
+    'headers': [
+        {'name': 'Name', 'column_class': 'bold'},
+        {'name': 'Amount', },
+        {'name': 'Comments', 'class': 'my_css_class'},
+    ],
+    'rows': [
+        {'cells': [{'value': 'John'}, {'value': 1.6123, 'display_value': '$1.61'}, {'value': 'Comment 1'}]},
+        {'cells': [{'value': 'Sam'}, {'display_value': '$3.50', 'class': 'bold'}, {'value': 'Comment 2'}]},
+        {'cells': [{'value': 'Sarah'}, {'value': 9.1}, {'value': False}]},
+    ],
+}
+                                </pre>
+                            </p>
+                        </div>
+                    </group>
+                </page>
+            </page>
+        </field>
+    </record>
+
+</odoo>

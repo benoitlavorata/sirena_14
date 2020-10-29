@@ -1,0 +1,21 @@
+<odoo>
+<!--    <record id="dashboard_template_category_hr" model="is.dashboard.template.category">-->
+<!--        <field name="sequence" eval="300"/>-->
+<!--        <field name="name">Employees</field>-->
+<!--    </record>-->
+
+    <record id="dashboard_template_category_user" model="is.dashboard.template.category">
+        <field name="sequence" eval="1000"/>
+        <field name="name">Existing Dashboards</field>
+        <field name="is_existing_item_category">True</field>
+    </record>
+
+<!--    <record id="dashboard_ap" model="is.dashboard.widget">-->
+<!--        <field name="name">Employees logged in today</field>-->
+<!--        <field name="template_category_id" ref="dashboard_template_category_hr"/>-->
+<!--        <field name="display_mode">record_list</field>-->
+<!--        <field name="query_1_config_model_id" ref="base.model_res_users"/>-->
+<!--        <field name="query_1_config_date_range_type">today</field>-->
+<!--        <field name="query_1_config_date_range_field_id" ref="base.model_res_users"/>-->
+<!--    </record>-->
+</odoo>

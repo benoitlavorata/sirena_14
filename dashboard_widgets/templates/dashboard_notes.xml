@@ -1,0 +1,7 @@
+<odoo>
+    <template id="render_dashboard_widget_notes">
+        <div class="note" style="text-align: center;">
+            <t t-raw="record.note_kanban"/>
+        </div>
+    </template>
+</odoo>

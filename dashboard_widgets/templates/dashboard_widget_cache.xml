@@ -1,0 +1,7 @@
+<odoo>
+    <template id="render_dashboard_widget_cache">
+        <div t-if="record.use_cache" style="color: gray; font-size: smaller;text-align: center">
+            (Cached result last updated <span t-field="record.last_cache_updated_datetime" style="display:inline;"/>)
+        </div>
+    </template>
+</odoo>

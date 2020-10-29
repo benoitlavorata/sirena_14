@@ -1,0 +1,108 @@
+<odoo>
+    <record id="is_dashboard_tree_view" model="ir.ui.view">
+        <field name="name">is.dashboard.tree.view</field>
+        <field name="model">is.dashboard</field>
+        <field name="arch" type="xml">
+            <tree create="0" editable="bottom">
+                <field name="name"/>
+                <field name="widget_ids" widget="many2many_tags" readonly="1"/>
+                <field name="menu_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="is_dashboard_form_settings_view" model="ir.ui.view">
+        <field name="name">is.dashboard.form.settings.view</field>
+        <field name="model">is.dashboard</field>
+        <field name="priority" eval="100"/>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="name"/>
+                    <group string="Auto-Refresh">
+                        <label for="auto_refresh"/>
+                        <div>
+                            <field name="auto_refresh" class="oe_inline" style="width: 40px !important;"/> seconds
+                            (<field name="auto_refresh_type" class="oe_inline"/>)
+                        </div>
+                    </group>
+                    <group string="Advanced">
+                        <field name="menu_id"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="action_refresh" string="Save" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="is_dashboard_form_add_item_view" model="ir.ui.view">
+        <field name="name">is.dashboard.form.settings.view</field>
+        <field name="model">is.dashboard</field>
+        <field name="priority" eval="200"/>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="add_widget_id" invisible="0" style="display: none;"/>
+                <field name="add_widget_link_id" invisible="0" style="display: none;"/>
+                <field name="widget_ids" invisible="1"/>
+
+                <group string="Create new dashboard item">
+                    <field name="add_widget_type_id" widget="dashboard_widgets_type_widget" nolabel="1"/>
+                </group>
+                <group string="Create from template library">
+                    <field name="available_widget_filter_template_category_id" nolabel="1" widget="radio" options="{'horizontal': true}" colspan="2"/>
+                    <div attrs="{'invisible': [('available_widget_filter_template_category_id', '=', False)]}">
+                        <field name="available_widget_filter_keywords" placeholder="Filter..." nolabel="1" attrs="{'invisible': [('available_widget_filter_template_category_id', '=', False)]}" class="oe_inline"/>
+                        <button type="do_nothing" name="do_nothing" icon="fa-search" attrs="{'invisible': [('available_widget_filter_template_category_id', '=', False)]}"/>
+                    </div>
+                    <button type="object" name="action_add_all_widget_templates" string="Add all to dashboard" icon="fa-plus" class="btn btn-secondary float-right"/>
+                    <field name="available_widget_ids" widget="many2many_dashboards" context="{'template_mode': True}" nolabel="1" colspan="2" mode="kanban"/>
+                </group>
+                <footer/>
+            </form>
+        </field>
+    </record>
+
+    <record id="is_dashboard_form_view" model="ir.ui.view">
+        <field name="name">is.dashboard.form.view</field>
+        <field name="model">is.dashboard</field>
+        <field name="priority" eval="10"/>
+        <field name="arch" type="xml">
+            <form create="0">
+                <header groups="dashboard_widgets.group_dashboard_editor_manager">
+                    <button name="action_refresh" string="Refresh" icon="fa-refresh" type="object" class="btn-primary"/>
+                    <button name="action_add_item" string="Add Item" icon="fa-plus" type="object" groups="dashboard_widgets.group_dashboard_editor_manager" class="oe_edit_only"/>
+                    <button name="action_open_settings" string="Settings" icon="fa-gear" type="object" groups="dashboard_widgets.group_dashboard_editor_manager" class="oe_edit_only"/>
+                </header>
+                <div colspan="2" class="text-center">
+                    <h1>
+                        <field name="name"/>
+                    </h1>
+                </div>
+                <field name="auto_refresh" invisible="1"/>
+                <field name="auto_refresh_type" invisible="1"/>
+                <field name="show_date_range" invisible="1"/>
+                <field name="date_range_type" invisible="1"/>
+                <field name="date_single_range_operator" invisible="1"/>
+                <field name="widget_ids" widget="many2many_dashboards" nolabel="1" colspan="2" force_save="1" context="{'show_date_range': show_date_range}"/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_is_dashboard" model="ir.actions.act_window">
+        <field name="name">Dashboards</field>
+        <field name="res_model">is.dashboard</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+    <record id="is_dashboard_form_action" model="ir.actions.act_window">
+        <field name="name">Dashboard</field>
+        <field name="res_model">is.dashboard</field>
+        <field name="view_mode">form</field>
+    </record>
+
+    <menuitem id="menu_dashboard_list" parent="menu_dashboard_config" name="Dashboards" action="action_is_dashboard" sequence="5" groups="base.group_no_one"/>
+</odoo>

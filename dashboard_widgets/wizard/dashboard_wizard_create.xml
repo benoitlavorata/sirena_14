@@ -1,0 +1,29 @@
+<odoo>
+    <record id="view_dashboard_wizard_create_form" model="ir.ui.view">
+        <field name="name">Create Dashboard</field>
+        <field name="model">is.dashboard.widget.wizard.create</field>
+        <field name="arch" type="xml">
+            <form string="Create Dashboard">
+                <group>
+                    <field name="name"/>
+                    <field name="menu_id"/>
+                    <field name="group_ids" widget="many2many_tags"/>
+                </group>
+                <footer>
+                    <button string="Create Dashboard" name="action_create" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_dashboard_wizard_create" model="ir.actions.act_window">
+        <field name="name">Create Dashboard</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">is.dashboard.widget.wizard.create</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_dashboard_create" parent="menu_dashboard" name="Create Dashboard" action="action_dashboard_wizard_create" sequence="10"/>
+</odoo>

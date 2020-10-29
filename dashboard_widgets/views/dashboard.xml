@@ -1,0 +1,139 @@
+<odoo>
+    <!-- MIG Cleanup -->
+    <delete model="ir.ui.view" search="[('name', 'in', ['view_dashboard_widget_kanban_count', 'view_dashboard_widget_kanban_table'])]"/>
+    <!-- /MIG Cleanup -->
+
+    <record id="view_is_dashboard_tree" model="ir.ui.view">
+        <field name="name">is.dashboard.widget.tree</field>
+        <field name="model">is.dashboard.widget</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="tag_ids" />
+                <field name="display_mode" />
+                <field name="widget_type" />
+                <button name="copy" type="object" icon="fa-copy" string="Copy"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_is_dashboard_form" model="ir.ui.view">
+        <field name="name">view_is_dashboard_form</field>
+        <field name="model">is.dashboard.widget</field>
+        <field name="priority" eval="10"/>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group name="general" string="KPI">
+                            <field name="name" attrs="{'readonly': [('locked', '=', True)]}" />
+                            <field string="Record Type" domain="[('transient', '=', False)]" name="query_1_config_model_id" attrs="{'readonly': [('locked', '=', True)], 'required': [('display_mode', '!=', 'line_break'),'!', ('display_mode', 'ilike', 'embed'),('datasource', '=', 'query')]}" options="{'no_create': True}"/>
+                            <field name="display_mode"/>
+
+                            <field name="record_list_column_ids" attrs="{'invisible': [('display_mode', '!=', 'record_list')], 'required': [('display_mode', '=', 'record_list')], 'readonly': [('locked', '=', True)]}">
+                                <tree editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="field_id" domain="[('model_id', '=', parent.query_1_config_model_id)]"/>
+                                    <field name="name"/>
+                                    <field name="format_string"/>
+                                    <field name="dashboard_id" invisible="1"/>
+                                </tree>
+                            </field>
+                            <field name="graph_type" attrs="{'invisible': [('display_mode', '!=', 'graph')], 'required': [('display_mode', '=', 'graph')], 'readonly': [('locked', '=', True)]}"/>
+                            <field name="widget_type" attrs="{'readonly': [('locked', '=', True)], 'invisible': [('display_mode', '!=', 'card')], 'required': [('display_mode', '=', 'card')]}"/>
+                            <field name="datasource"/>
+
+                            <field name="tag_ids" attrs="{'readonly': [('locked', '=', True)]}" widget="many2many_tags" groups="base.group_no_one"/>
+
+                            <field name="sequence" attrs="{'readonly': [('locked', '=', True)]}" invisible="1" />
+                            <field name="widget_type_is_a_count" invisible="1" />
+                            <field name="widget_type_is_a_count_over_total" invisible="1" />
+                            <field name="locked" readonly="1" invisible="1"/>
+                            <field name="dashboard_ids" attrs="{'readonly': [('locked', '=', True)]}" widget="many2many_tags"/>
+                            <field name="color" invisible="1"/>
+                            <field name="background_color" widget="color"/>
+                        </group>
+                        <group name="preview">
+                            <field name="preview_data" invisible="1"/>
+                            <field name="preview_ids" widget="many2many_dashboards" nolabel="1" colspan="2" class="dashboard_preview" context="{'preview_mode': True, 'preview_data': preview_data}" />
+                        </group>
+                    </group>
+                    <notebook/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="dashboard_kanban_view_abstract" model="ir.ui.view">
+        <field name="name">view_dashboard_widget_kanban</field>
+        <field name="model">is.dashboard.widget</field>
+        <field name="arch" type="xml">
+            <kanban class="oe_background_grey o_kanban_dashboard o_widget_kanban">
+                <field name="name"/>
+                <field name="dashboard_data"/>
+                <field name="datasource"/>
+                <field name="widget_type"/>
+                <field name="display_mode"/>
+                <field name="widget_hidden"/>
+                <field name="render_dashboard_markup"/>
+
+                <field name="color"/>
+                <field name="config_id"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <t t-if="record.display_mode.raw_value != 'line_break' &amp; !record.widget_hidden.raw_value">
+                            <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} dashboard_main o_kanban_record oe_kanban_card oe_kanban_global_click">
+                                <div class="o_dropdown_kanban dropdown o_kanban_record_full_color" groups="base.group_user">
+                                    <a class="dropdown-toggle btn" role="button" data-toggle="dropdown" href="#">
+                                        <i class="fa fa-bars fa-lg"/>
+                                    </a>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                        <t t-if="widget.editable"><li><a type="edit">Edit</a></li></t>
+                                        <li><ul class="oe_kanban_colorpicker" data-field="color"/></li>
+                                    </ul>
+                                </div>
+                                <div data-type="object" data-name="action_open_data" class="oe_kanban_action oe_kanban_action_a button_as_text">
+                                    <div name="dashboard_content" class="oe_kanban_content dashboard_widget">
+                                        <t t-raw="record.render_dashboard_markup.raw_value"/>
+                                    </div>
+
+                                    <div class="oe_clear"/>
+                                </div>
+                            </div>
+                        </t>
+                        <t t-if="record.display_mode.raw_value == 'line_break'">
+                            <hr class="kanban_row_break"/>
+                        </t>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="dashboard_kanban_view" model="ir.ui.view">
+        <field name="name">view_dashboard_widget_kanban</field>
+        <field name="model">is.dashboard.widget</field>
+        <field name="mode">primary</field>
+        <field name="inherit_id" ref="dashboard_kanban_view_abstract"/>
+        <field name="arch" type="xml">
+            <data/>
+        </field>
+    </record>
+
+    <record id="action_dashboard_all" model="ir.actions.act_window">
+        <field name="name">Dashboards</field>
+        <field name="res_model">is.dashboard.widget</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click create a new Dashboard.
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_dashboard" parent="base.menu_administration" name="Dashboards" sequence="1" groups="group_dashboard_editor_user"/>
+    <menuitem id="menu_dashboard_config" parent="menu_dashboard" name="Configuration" sequence="100" groups="base.group_no_one" />
+    <menuitem id="menu_dashboard_all" parent="menu_dashboard_config" name="Dashboards Widgets" action="action_dashboard_all" sequence="10" groups="base.group_no_one"/>
+</odoo>

@@ -1,0 +1,18 @@
+<odoo>
+    <template id="dashboard_email">
+        <t t-set="print" t-value="True"/>
+
+        <table t-foreach="rows" t-as="row" style="width: 100%; border: 0px;">
+            <tr style="border: 1px solid gray; border-bottom: 0px;">
+                <td t-foreach="row.sorted(key=lambda t: t.pos_x)" t-as="record" t-attf-style="padding-top: 5px; width: #{round(1.0/len(row)*100, 2)}%; background-color: #{record.background_color}; border-right: 1px solid gray; min-width: 50px; text-align: center;">
+                    <div><strong style="text-align: center;"><span t-esc="record.name"/></strong></div>
+                </td>
+            </tr>
+            <tr style="border: 1px solid gray;border-top: 0px;">
+                <td t-foreach="row.sorted(key=lambda t: t.pos_x)" t-as="record" t-attf-style="padding-bottom: 5px; width: #{round(1.0/len(row)*100, 2)}%; background-color: #{record.background_color}; border-left: 1px solid gray; border-right: 1px solid gray; min-width: 50px;">
+                    <div><t t-raw="record.render_dashboard_markup"/></div>
+                </td>
+            </tr>
+        </table>
+    </template>
+</odoo>

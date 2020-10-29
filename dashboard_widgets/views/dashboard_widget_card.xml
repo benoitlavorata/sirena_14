@@ -1,0 +1,349 @@
+<odoo>
+    <record id="view_is_dashboard_form_count" model="ir.ui.view">
+        <field name="name">view_is_dashboard_form_count</field>
+        <field name="model">is.dashboard.widget</field>
+        <field name="inherit_id" ref="view_is_dashboard_form"/>
+        <field name="arch" type="xml">
+             <notebook position="inside">
+                <page name="query_1" string="Query" attrs="{'invisible': ['|', '|', '&amp;', ('datasource', '!=', 'query'), ('datasource', '!=', 'python'), ('display_mode', '=', 'line_break'), ('display_mode', 'in', ['embed_html', 'embed_iframe_html', 'embed_iframe_url'])]}">
+                    <group>
+                        <group groups="base.group_no_one">
+                            <field name="query_1_sudo" groups="base.group_no_one" string="Run as admin (sudo)"/>
+                        </group>
+                        <group string="Drill-down action">
+                            <field name="drilldown_type"/>
+                            <field string="Drill-down Action" name="action_id" domain="[('res_model', '=', query_1_config_model_id_name)]" attrs="{'invisible': [('drilldown_type', '!=', 'standard')]}"/>
+
+                            <!-- Sub-Dashboard -->
+                            <field name="drilldown_dashboard_id" attrs="{'invisible': [('drilldown_type', '!=', 'sub_dashboard')]}"/>
+
+                            <!-- Custom Action/View -->
+                            <field name="open_action_1_auto_generate_action_id"  attrs="{'invisible': [('drilldown_type', '!=', 'custom_action')]}"/>
+                            <field name="open_action_1_auto_generate_form_view_id" domain="[('model', '=', query_1_config_model_id_name),('type', '=', 'form'),('mode', '=', 'primary')]" attrs="{'invisible': [('drilldown_type', '!=', 'custom_action')]}"/>
+                            <field name="open_action_1_auto_generate_tree_view_id" attrs="{'invisible': [('drilldown_type', '!=', 'custom_action')]}"/>
+                            <field name="open_action_1_auto_generate_view_column_ids" nolabel="1" colspan="2" attrs="{'invisible': [('drilldown_type', '!=', 'custom_action')]}">
+                                <tree editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="field_id" domain="[('model_id', '=', parent.query_1_config_model_id)]"/>
+                                    <field name="show_sum"/>
+                                    <field name="invisible"/>
+                                    <field name="dashboard_id" invisible="1"/>
+                                </tree>
+                            </field>
+                            <button type="object" string="Update Drill-down action" name="action_update_auto_view" attrs="{'invisible': [('drilldown_type', '!=', 'custom_action')]}"/>
+                        </group>
+                    </group>
+                    <group>
+
+                        <group string="Dates" attrs="{'invisible': [('query_1_config_model_id', '=', False)]}">
+                            <label for="query_1_config_date_range_type" string="Date Range Type"/>
+                            <div>
+                                <field string="Date Range Type" name="query_1_config_date_range_type" attrs="{'readonly': [('locked', '=', True)]}"/>
+                                <field name="query_1_config_date_single_range_operator" attrs="{'invisible': [('query_1_config_date_range_type', 'not in', ('yesterday', 'today'))]}" nolabel="1"/>
+                            </div>
+                            <field string="Date Field" name="query_1_config_date_range_field_id" domain="([('model_id', '=', query_1_config_model_id),('store', '=', True),('ttype', 'in', ['date', 'datetime'])])" attrs="{'invisible': [('query_1_config_model_id', '=', False)], 'required': [('query_1_config_date_range_type', '!=', False)], 'readonly': [('locked', '=', True)]}" options="{'no_create': True}" />
+                            <strong attrs="{'invisible': [('query_1_config_date_range_x_label', '=', False)]}"><field name="query_1_config_date_range_x_label" nolabel="1" colspan="1" class="oe_inline"/></strong>
+                            <field name="query_1_config_date_range_x" nolabel="1" colspan="1" class="oe_inline" attrs="{'invisible': [('query_1_config_date_range_x_label', '=', False)], 'required': [('query_1_config_date_range_x_label', '!=', False)]}"/>
+                            <field name="query_1_config_date_range_custom_start" attrs="{'invisible': ['|', ('query_1_config_date_range_type', '!=', 'custom'), ('query_1_config_date_is_datetime', '=', True)]}"/>
+                            <field name="query_1_config_date_range_custom_end" attrs="{'invisible': ['|', ('query_1_config_date_range_type', '!=', 'custom'), ('query_1_config_date_is_datetime', '=', True)]}"/>
+                            <field name="query_1_config_datetime_range_custom_start" attrs="{'invisible': ['|', ('query_1_config_date_range_type', '!=', 'custom'), ('query_1_config_date_is_datetime', '=', False)]}"/>
+                            <field name="query_1_config_datetime_range_custom_end" attrs="{'invisible': ['|', ('query_1_config_date_range_type', '!=', 'custom'), ('query_1_config_date_is_datetime', '=', False)]}"/>
+                            <field name="query_1_config_date_is_datetime" invisible="1" groups="base.group_no_one" attrs="{'invisible': [('query_1_config_date_range_type', '=', False)]}" />
+                            <field string="Query Start Date" name="query_1_config_date_range_start" groups="base.group_no_one" attrs="{'invisible': ['|', ('query_1_config_date_is_datetime', '=', True),('query_1_config_date_range_type', '=', False)]}" />
+                            <field string="Query End Date" name="query_1_config_date_range_end" groups="base.group_no_one" attrs="{'invisible': ['|', ('query_1_config_date_is_datetime', '=', True),('query_1_config_date_range_type', '=', False)]}"/>
+                            <field string="Query Start Date/Time" name="query_1_config_datetime_range_start" groups="base.group_no_one" attrs="{'invisible': ['|', ('query_1_config_date_is_datetime', '=', False),('query_1_config_date_range_type', '=', False)]}" />
+                            <field string="Query End Date/Time" name="query_1_config_datetime_range_end" groups="base.group_no_one" attrs="{'invisible': ['|', ('query_1_config_date_is_datetime', '=', False),('query_1_config_date_range_type', '=', False)]}"/>
+                        </group>
+                        <group string="Data" attrs="{'invisible': [('query_1_config_model_id', '=', False)]}">
+                            <label string="Measure Field" for="query_1_config_measure_field_id"/>
+                            <div colspan="1" cols="2" attrs="{'invisible': ['|', ('query_1_config_model_id', '=', False),('datasource', '!=', 'query')]}">
+                                <field name="query_1_config_measure_operator_supported" invisible="1"/>
+                                <field name="query_1_config_measure_field_id" domain="([('model_id', '=', query_1_config_model_id),('store', '=', True)])" attrs="{'invisible': ['|', ('query_1_config_model_id', '=', False),('datasource', '!=', 'query')], 'readonly': [('locked', '=', True)]}" options="{'no_create': True, 'no_open': True}" class="oe_inline"/>
+                                <div style="display: inline" attrs="{'invisible': [('query_1_config_measure_operator_supported', '=', False)]}">
+                                    (<field name="query_1_config_measure_operator" string="Aggregate Operator" attrs="{'readonly': [('locked', '=', True)]}" class="oe_inline"/>)
+                                </div>
+                            </div>
+                            <field name="query_1_config_result_limit" string="Limit top X results"/>
+                        </group>
+                    </group>
+
+                    <group string="Filter" attrs="{'invisible': [('query_1_config_model_id', '=', False)]}" colspan="4">
+                        <field string="Use Domain Editor" name="query_1_config_domain_use_widget" groups="base.group_no_one" />
+                        <field name="query_1_config_model_id_name" invisible="1"/>
+                        <field string="Filter" name="query_1_config_domain" attrs="{'invisible': ['|', ('query_1_config_domain_use_widget', '=', True), ('widget_type_is_a_count', '!=', True)], 'readonly': [('locked', '=', True)]}" />
+                        <field string="Filter" name="query_1_config_domain_widget" widget="domain" options="{'model': 'query_1_config_model_id_name'}" attrs="{'invisible': [('query_1_config_domain_use_widget', '=', False)], 'readonly': [('locked', '=', True)]}" />
+                    </group>
+                    <group string="Additional Filters">
+                        <field name="query_1_config_domain_additional_ids" nolabel="1" context="{'default_query_number': 'query_1', 'default_model_id_name': query_1_config_model_id_name}"/>
+                    </group>
+                </page>
+
+                <page name="query_2" string="Query #2" attrs="{'invisible': ['|', ('datasource', '!=', 'query'), '&amp;', ('display_mode', '!=', 'card'), ('display_mode', '!=', 'graph')]}">
+                    <group>
+                        <group>
+                            <field string="Record Type" name="query_2_config_model_id" attrs="{'readonly': [('locked', '=', True)]}" options="{'no_create': True}"/>
+                        </group>
+                        <group>
+                            <field string="Open Records Action" name="query_2_config_action_id" domain="[('res_model', '=', query_2_config_model_id_name)]" />
+                            <field name="query_2_sudo" groups="base.group_no_one" string="Run as admin (sudo)"/>
+                        </group>
+                    </group>
+                    <group>
+
+                        <group string="Dates" attrs="{'invisible': [('query_2_config_model_id', '=', False)]}">
+                            <label for="query_2_config_date_range_type" string="Date Range Type" />
+                            <div>
+                                <field string="Date Range Type" name="query_2_config_date_range_type" attrs="{'readonly': [('locked', '=', True)]}" />
+                                <field name="query_2_config_date_single_range_operator" attrs="{'invisible': [('query_2_config_date_range_type', 'not in', ('yesterday', 'today'))]}" nolabel="1"/>
+                            </div>
+
+                            <field string="Date Field" name="query_2_config_date_range_field_id" domain="([('model_id', '=', query_2_config_model_id),('store', '=', True),('ttype', 'in', ['date', 'datetime'])])" attrs="{'invisible': [('query_2_config_model_id', '=', False)], 'required': [('query_2_config_date_range_type', '!=', False)], 'readonly': [('locked', '=', True)]}" options="{'no_create': True}" />
+                            <strong attrs="{'invisible': [('query_2_config_date_range_x_label', '=', False)]}"><field name="query_2_config_date_range_x_label" nolabel="1" colspan="1" class="oe_inline"/></strong>
+                            <field name="query_2_config_date_range_x" nolabel="1" colspan="1" class="oe_inline" attrs="{'invisible': [('query_2_config_date_range_x_label', '=', False)], 'required': [('query_2_config_date_range_x_label', '!=', False)]}"/>
+                            <field name="query_2_config_date_range_custom_start" attrs="{'invisible': ['|', ('query_2_config_date_range_type', '!=', 'custom'), ('query_2_config_date_is_datetime', '=', True)]}"/>
+                            <field name="query_2_config_date_range_custom_end" attrs="{'invisible': ['|', ('query_2_config_date_range_type', '!=', 'custom'), ('query_2_config_date_is_datetime', '=', True)]}"/>
+                            <field name="query_2_config_datetime_range_custom_start" attrs="{'invisible': ['|', ('query_2_config_date_range_type', '!=', 'custom'), ('query_2_config_date_is_datetime', '=', False)]}"/>
+                            <field name="query_2_config_datetime_range_custom_end" attrs="{'invisible': ['|', ('query_2_config_date_range_type', '!=', 'custom'), ('query_2_config_date_is_datetime', '=', False)]}"/>
+                            <field name="query_2_config_date_is_datetime" invisible="1" groups="base.group_no_one" attrs="{'invisible': [('query_2_config_date_range_type', '=', False)]}" />
+                            <field string="Query Start Date" name="query_2_config_date_range_start" groups="base.group_no_one" attrs="{'invisible': ['|', ('query_2_config_date_is_datetime', '=', True),('query_2_config_date_range_type', '=', False)]}" />
+                            <field string="Query End Date" name="query_2_config_date_range_end" groups="base.group_no_one" attrs="{'invisible': ['|', ('query_2_config_date_is_datetime', '=', True),('query_2_config_date_range_type', '=', False)]}" />
+                            <field string="Query Start Date/Time" name="query_2_config_datetime_range_start" groups="base.group_no_one" attrs="{'invisible': ['|', ('query_2_config_date_is_datetime', '=', False),('query_2_config_date_range_type', '=', False)]}" />
+                            <field string="Query End Date/Time" name="query_2_config_datetime_range_end" groups="base.group_no_one" attrs="{'invisible': ['|', ('query_2_config_date_is_datetime', '=', False),('query_2_config_date_range_type', '=', False)]}" />
+                        </group>
+                        <group string="Data" attrs="{'invisible': [('query_2_config_model_id', '=', False)]}">
+                            <label string="Measure Field" for="query_2_config_measure_field_id"/>
+                            <div>
+                                <field name="query_2_config_measure_operator_supported" invisible="1"/>
+                                <field name="query_2_config_measure_field_id" domain="([('model_id', '=', query_2_config_model_id),('store', '=', True)])" attrs="{'invisible': [('query_2_config_model_id', '=', False)], 'readonly': [('locked', '=', True)]}" options="{'no_create': True, 'no_open': True}" class="oe_inline"/>
+                                <div style="display: inline" attrs="{'invisible': ['|', ('query_2_config_measure_operator_supported', '=', False), ('query_2_config_model_id', '=', False)]}">
+                                    (<field name="query_2_config_measure_operator" attrs="{'readonly': [('locked', '=', True)]}" class="oe_inline"/>)
+                                </div>
+                            </div>
+                            <field name="query_2_config_result_limit" string="Limit top X results"/>
+                        </group>
+                    </group>
+
+                    <group string="Filter" colspan="4" attrs="{'invisible': [('query_2_config_model_id', '=', False)]}">
+                        <field string="Use Domain Editor" name="query_2_config_domain_use_widget" groups="base.group_no_one" />
+                        <field name="query_2_config_model_id_name" invisible="1"/>
+                        <field string="Filter" name="query_2_config_domain" attrs="{'invisible': [('query_2_config_domain_use_widget', '=', True)], 'readonly': [('locked', '=', True)]}"/>
+                        <field string="Filter" name="query_2_config_domain_widget" attrs="{'invisible': [('query_2_config_domain_use_widget', '=', False)], 'readonly': [('locked', '=', True)]}" widget="domain" options="{'model': 'query_2_config_model_id_name'}"/>
+                    </group>
+                    <group string="Additional Filters">
+                        <field name="query_2_config_domain_additional_ids" nolabel="1" context="{'default_query_number': 'query_2', 'default_model_id_name': query_2_config_model_id_name}"/>
+                    </group>
+                </page>
+                <page name="goal_1" string="Goal" attrs="{'invisible': ['|', ('datasource', '!=', 'query'), ('display_mode', 'not in', ['card', 'graph'])]}">
+                    <group name="goal_1" string="Goal" attrs="{'invisible': [('query_1_config_model_id', '=', False)]}">
+                        <field string="Enable Goals" name="query_1_config_enable_goal" />
+                        <field string="Above Goal is better" name="goal_1_is_greater_than" attrs="{'invisible': ['|', ('query_1_config_enable_goal', '!=', True), ('widget_type_is_a_count', '!=', True)], 'readonly': [('locked', '=', True)]}" />
+                        <field name="goal_1_show_future_goals" attrs="{'invisible': ['|', ('query_1_config_enable_goal', '!=', True), ('widget_type_is_a_count', '!=', True)], 'readonly': [('locked', '=', True)]}" groups="base.group_no_one" />
+                        <field string="Standard Goal" name="goal_count" attrs="{'invisible': ['|', ('query_1_config_enable_goal', '!=', True), ('widget_type_is_a_count', '!=', True)]}"/>
+                        <field name="current_goal_date_start" invisible="1" />
+                        <field name="current_goal_date_end" invisible="1" />
+                        <field name="goal_1_line_ids" nolabel="1" colspan="2" attrs="{'invisible': [('query_1_config_enable_goal', '!=', True)]}">
+                            <tree editable="bottom">
+                                <field name="date"/>
+                                <field name="goal" />
+                            </tree>
+                        </field>
+                    </group>
+                </page>
+                 <page name="goal_2" string="Goal #2" attrs="{'invisible': ['|', ('datasource', '!=', 'query'), ('display_mode', '!=', 'card')]}">
+                    <group name="goal_2" string="Goal #2" attrs="{'invisible': [('query_2_config_model_id', '=', False)]}">
+                        <field string="Enable Goals" name="query_2_config_enable_goal" />
+                        <field string="Above Goal is better" name="goal_2_is_greater_than" attrs="{'invisible': [('query_2_config_enable_goal', '!=', True)], 'readonly': [('locked', '=', True)]}" />
+                        <field string="Standard Goal" name="goal_total" attrs="{'invisible': [('query_2_config_enable_goal', '!=', True)]}"/>
+                        <field name="goal_2_line_ids" nolabel="1" colspan="2" attrs="{'invisible': [('query_2_config_enable_goal', '!=', True)]}">
+                            <tree editable="bottom">
+                                <field name="date"/>
+                                <field name="goal" />
+                            </tree>
+                        </field>
+                    </group>
+                </page>
+                <page name="display_settings" string="Display Settings" attrs="{'invisible': [('display_mode', '=', 'line_break')]}">
+                    <group string="General">
+                        <group>
+                            <div colspan="2">
+                                <field name="hide_dashboard_item"/>
+                                <label for="hide_dashboard_item"/>
+                            </div>
+                            <div colspan="2">
+                                <field name="card_hide_when_no_data"/>
+                                <label for="card_hide_when_no_data"/>
+                            </div>
+                            <div colspan="2">
+                                <field name="display_allow_scrolling"/>
+                                <label for="display_allow_scrolling"/>
+                            </div>
+                        </group>
+                    </group>
+
+                    <!--- Card Settings -->
+                    <group attrs="{'invisible': [('display_mode', '!=', 'card')]}">
+                        <group string="KPI Card Display Settings">
+                            <field name="has_forecast_1" invisible="1" />
+                            <div colspan="1">
+                                <field name="show_expected_1" attrs="{'invisible': [('query_1_config_enable_goal', '=', False)]}"/>
+                                <label for="show_expected_1" string="Show Expected" attrs="{'invisible': [('query_1_config_enable_goal', '=', False)]}"/>
+                            </div>
+                            <div colspan="1">
+                                <field name="show_expected_1_label" attrs="{'invisible': ['|', ('query_1_config_enable_goal', '=', False), ('show_expected_1', '=', False)]}" />
+                            </div>
+
+                            <div colspan="1">
+                                <field  name="show_goal_1" attrs="{'invisible': [('query_1_config_enable_goal', '=', False)]}" nolabel="1"/>
+                                <label for="show_goal_1" string="Show Goal" attrs="{'invisible': [('query_1_config_enable_goal', '=', False)]}" nolabel="1"/>
+                            </div>
+                            <div colspan="1">
+                                <field name="show_goal_1_label" attrs="{'invisible': ['|', ('query_1_config_enable_goal', '=', False), ('show_goal_1', '=', False)]}" />
+                            </div>
+
+                            <div colspan="1">
+                                <field name="show_forecast_1" attrs="{'invisible': [('has_forecast_1', '=', False)]}" />
+                                <label for="show_forecast_1" string="Show Forecast" attrs="{'invisible': [('has_forecast_1', '=', False)]}" />
+                            </div>
+                            <div colspan="1">
+                                <field name="show_forecast_1_label" attrs="{'invisible': ['|', ('show_forecast_1', '=', False), ('has_forecast_1', '=', False)]}" />
+                            </div>
+
+                            <div colspan="1">
+                                <field name="show_variation_1" attrs="{'invisible': [('query_1_config_enable_goal', '=', False)]}" />
+                                <label for="show_variation_1" string="Show Variation" attrs="{'invisible': [('query_1_config_enable_goal', '=', False)]}" />
+                            </div>
+                            <div colspan="1">
+                                <field name="show_variation_1_label" attrs="{'invisible': ['|', ('query_1_config_enable_goal', '=', False), ('show_variation_1', '=', False)]}" />
+                            </div>
+
+                            <div colspan="1">
+                                <field name="show_forecasted_variation_1" attrs="{'invisible': ['|', ('has_forecast_1', '=', False), ('query_1_config_enable_goal', '=', False)]}" />
+                                <label for="show_forecasted_variation_1" string="Show Forecast Variation" attrs="{'invisible': ['|', ('has_forecast_1', '=', False), ('query_1_config_enable_goal', '=', False)]}" />
+                            </div>
+                            <div colspan="1">
+                                <field name="show_forecasted_variation_1_label" attrs="{'invisible': ['|', '|', ('has_forecast_1', '=', False), ('query_1_config_enable_goal', '=', False), ('show_forecasted_variation_1', '=', False)]}" />
+                            </div>
+                            <field name="card_primary_display"  />
+
+                        </group>
+
+
+                        <group string="KPI Card Display Settings: Query #2" attrs="{'invisible': [('query_2_config_model_id', '=', False)]}">
+                            <field name="has_forecast_2" invisible="1" />
+                            <div colspan="1">
+                                <field name="show_expected_2" attrs="{'invisible': [('query_2_config_enable_goal', '=', False)]}"/>
+                                <label for="show_expected_2" string="Show Expected" attrs="{'invisible': [('query_2_config_enable_goal', '=', False)]}"/>
+                            </div>
+                            <div colspan="1">
+                                <field name="show_expected_2_label" attrs="{'invisible': ['|', ('query_2_config_enable_goal', '=', False), ('show_expected_2', '=', False)]}" />
+                            </div>
+
+                            <div colspan="1">
+                                <field name="show_goal_2" attrs="{'invisible': [('query_2_config_enable_goal', '=', False)]}"/>
+                                <label for="show_goal_2" string="Show Goal" attrs="{'invisible': [('query_2_config_enable_goal', '=', False)]}"/>
+                            </div>
+                            <div colspan="1">
+                                <field name="show_goal_2_label" attrs="{'invisible': ['|', ('query_2_config_enable_goal', '=', False), ('show_goal_2', '=', False)]}" />
+                            </div>
+
+                            <div colspan="1">
+                                <field name="show_forecast_2" attrs="{'invisible': [('has_forecast_2', '=', False)]}" />
+                                <label for="show_forecast_2" string="Show Forecast" attrs="{'invisible': [('has_forecast_2', '=', False)]}" />
+                            </div>
+                            <div colspan="1">
+                                <field name="show_forecast_2_label" attrs="{'invisible': ['|', ('show_forecast_2', '=', False), ('has_forecast_2', '=', False)]}" />
+                            </div>
+
+                            <div colspan="1">
+                                <field name="show_variation_2" attrs="{'invisible': [('query_2_config_enable_goal', '=', False)]}" />
+                                <label for="show_variation_2" string="Show Variation" attrs="{'invisible': [('query_2_config_enable_goal', '=', False)]}" />
+                            </div>
+                            <div colspan="1">
+                                <field name="show_variation_2_label" attrs="{'invisible': ['|', ('query_2_config_enable_goal', '=', False), ('show_variation_2', '=', False)]}" />
+                            </div>
+
+                            <div colspan="1">
+                                <field name="show_forecasted_variation_2" attrs="{'invisible': ['|', ('has_forecast_2', '=', False), ('query_2_config_enable_goal', '=', False)]}" />
+                                <label for="show_forecasted_variation_2" string="Show Forecast Variation" attrs="{'invisible': ['|', ('has_forecast_2', '=', False), ('query_2_config_enable_goal', '=', False)]}" />
+                            </div>
+                            <div colspan="1">
+                                <field name="show_forecasted_variation_2_label" attrs="{'invisible': ['|', '|', ('has_forecast_2', '=', False), ('query_2_config_enable_goal', '=', False), ('show_forecasted_variation_2', '=', False)]}" />
+                            </div>
+                        </group>
+                    </group>
+
+                    <!-- Graph Settings -->
+                    <group string="Chart Display Settings" attrs="{'invisible': [('display_mode', '!=', 'graph')]}">
+                        <group>
+                            <field name="chart_display_value_prefix" string="Value prefix"/>
+                        </group>
+                        <group/>
+                        <group string="Query">
+                            <field name="chart_1_config_title" string="Chart Title" attrs="{'required': [('query_1_config_model_id', '!=', False)]}"/>
+                            <field name="graph_1_bar_stacked" string="Stack Bar Chart" attrs="{'invisible': [('graph_type', '!=', 'bar')]}"/>
+                            <field name="show_values_on_graph"/>
+
+                            <label for="use_suggested_min_y_axis" attrs="{'invisible': [('graph_type', 'in', ['pie','radar'])]}"/>
+                            <div attrs="{'invisible': [('graph_type', 'in', ['pie','radar'])]}">
+                                <field name="use_suggested_min_y_axis" nolabel="1"/>
+                                <field name="suggested_min_y_axis" attrs="{'invisible': [('use_suggested_min_y_axis', '=', False)]}" nolabel="1"/>
+                            </div>
+                            <label for="use_suggested_max_y_axis" attrs="{'invisible': [('graph_type', 'in', ['pie','radar'])]}"/>
+                            <div attrs="{'invisible': [('graph_type', 'in', ['pie','radar'])]}">
+                                <field name="use_suggested_max_y_axis" nolabel="1"/>
+                                <field name="suggested_max_y_axis" attrs="{'invisible': [('use_suggested_max_y_axis', '=', False)]}" nolabel="1"/>
+                            </div>
+                            <label for="use_decimal_precision_y_axis" attrs="{'invisible': [('graph_type', 'in', ['pie','radar'])]}"/>
+                            <div attrs="{'invisible': [('graph_type', 'in', ['pie','radar'])]}">
+                                <field name="use_decimal_precision_y_axis" nolabel="1"/>
+                                <field name="decimal_precision_y_axis" attrs="{'invisible': [('use_decimal_precision_y_axis', '=', False)]}" nolabel="1"/>
+                            </div>
+
+                            <field name="chart_1_config_color" string="Chart Color" invisible="1"/>
+                            <field name="chart_1_config_area" string="Shade Area" attrs="{'invisible': [('graph_type', '!=', 'line')]}"/>
+                            <field name="chart_1_config_show_empty_groups" string="Show Empty Groups" invisible="1"/>
+                        </group>
+                        <group string="Goal">
+                            <field name="chart_1_goal_config_title" string="Goal Title" attrs="{'required': ['|', ('query_1_config_enable_goal', '=', True),('query_1_config_model_id', '!=', False)]}"/>
+                            <field name="chart_1_goal_config_color" string="Goal Color"/>
+                            <field name="chart_1_goal_config_area" string="Shade Area" attrs="{'invisible': [('graph_type', '!=', 'line')]}"/>
+                        </group>
+                        <group string="Query #2">
+                            <field name="chart_2_config_title" string="Chart Title" attrs="{'required': [('query_1_config_model_id', '!=', False)]}"/>
+                            <field name="chart_2_config_color" string="Chart Color"/>
+                            <field name="chart_2_config_area" string="Shade Area" attrs="{'invisible': [('graph_type', '!=', 'line')]}"/>
+                            <field name="chart_2_config_show_empty_groups" string="Show Empty Groups" invisible="1"/>
+                        </group>
+                        <group string="Goal #2" invisible="1">
+                            <field name="chart_2_goal_config_title" string="Goal Title" attrs="{'required': ['|', ('query_2_config_enable_goal', '=', True),('query_2_config_model_id', '!=', False)]}"/>
+                            <field name="chart_2_goal_config_color" string="Goal Color"/>
+                            <field name="chart_2_goal_config_area" string="Shade Area" attrs="{'invisible': [('graph_type', '!=', 'line')]}"/>
+                        </group>
+                    </group>
+
+                    <group name="settings_table" string="Table Display Settings" attrs="{'invisible': [('display_mode', '!=', 'table')]}">
+                        <group>
+                            <field name="table_display_value_prefix" string="Value prefix"/>
+                        </group>
+                    </group>
+
+                    <!-- Cached Results Settings -->
+                    <group string="Cached Results" attrs="{'invisible': [('display_mode', '!=', 'card')]}">
+                        <group>
+                            <field name="use_cache"/>
+                            <field name="last_cache_updated_datetime" attrs="{'invisible': [('use_cache', '=', False)]}"/>
+                            <button name="action_update_cache" type="object" string="Update Cache" attrs="{'invisible': [('use_cache', '=', False)]}" colspan="2"/>
+                        </group>
+                    </group>
+
+                    <!-- Diagnostic Data -->
+                    <group string="Raw Chart Data" groups="base.group_no_one" attrs="{'invisible': [('display_mode', '!=', 'graph')]}">
+                        <group>
+                            <field name="dashboard_data" nolabel="1"/>
+                        </group>
+                    </group>
+                </page>
+            </notebook>
+        </field>
+    </record>
+</odoo>

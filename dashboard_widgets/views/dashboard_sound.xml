@@ -1,0 +1,47 @@
+<odoo>
+    <record model="ir.ui.view" id="view_is_dashboard_form_sound">
+        <field name="name">view_is_dashboard_form_notes</field>
+        <field name="model">is.dashboard.widget</field>
+        <field name="inherit_id" ref="view_is_dashboard_form"/>
+        <field name="priority">100</field>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page name="sound" string="Sound" attrs="{'invisible': [ ('display_mode', '!=', 'card')]}">
+                    <group>
+                        <field name="play_sound_on_change_down"/>
+                        <field name="play_sound_on_change_down_sound" attrs="{'invisible': [('play_sound_on_change_down', '=', False)]}"/>
+                        <field name="play_sound_on_change_down_sound_custom" attrs="{'invisible': ['|', ('play_sound_on_change_down', '=', False), ('play_sound_on_change_down_sound', '!=', 'custom')]}"/>
+
+                        <field name="play_sound_on_change_up"/>
+                        <field name="play_sound_on_change_up_sound" attrs="{'invisible': [('play_sound_on_change_up', '=', False)]}"/>
+                        <field name="play_sound_on_change_up_sound_custom" attrs="{'invisible': ['|', ('play_sound_on_change_up', '=', False), ('play_sound_on_change_up_sound', '!=', 'custom')]}"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="dashboard_kanban_view_sound" model="ir.ui.view">
+        <field name="name">view_dashboard_widget_kanban_notes</field>
+        <field name="model">is.dashboard.widget</field>
+        <field name="inherit_id" ref="dashboard_kanban_view"/>
+        <field name="priority" eval="90"/>
+        <field name="arch" type="xml">
+            <xpath expr="//kanban" position="inside">
+                <field name="play_sound_on_change_down"/>
+                <field name="play_sound_on_change_down_url"/>
+                <field name="play_sound_on_change_up"/>
+                <field name="play_sound_on_change_up_url"/>
+                <field name="count" />
+            </xpath>
+            <xpath expr="//div[@name='dashboard_content']/.." position="after" >
+                <t t-call="widget_sound" />
+            </xpath>
+            <xpath expr="templates" position="inside">
+                <t t-name="widget_sound">
+                    <div id="play_sound_alert"/>
+                </t>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,21 @@
+<odoo>
+    <template id="assets_backend" name="widget assets" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <!-- ChartJS Library -->
+            <script type="text/javascript" src="/dashboard_widgets/static/src/lib/chartjs/Chart.min.js"/>
+            <script type="text/javascript" src="/dashboard_widgets/static/src/lib/chartjs/chartjs-plugin-datalabels.min.js"/>
+            <script type="text/javascript" src="/dashboard_widgets/static/src/lib/chartjs/chartjs-plugin-colorschemes.min.js"/>
+            <script type="text/javascript" src="/dashboard_widgets/static/src/lib/chartjs/chartjs-plugin-empty-overlay.min.js"/>
+            <link rel="stylesheet" href="/dashboard_widgets/static/src/lib/chartjs/Chart.min.css"/>
+
+            <!-- Gridstack Library -->
+            <script type="text/javascript" src="/dashboard_widgets/static/src/lib/gridstack/gridstack.js"/>
+            <link rel="stylesheet" href="/dashboard_widgets/static/src/lib/gridstack/gridstack.css"/>
+
+            <script type="text/javascript" src="/dashboard_widgets/static/src/js/many2many_dashboards.js"/>
+            <script type="text/javascript" src="/dashboard_widgets/static/src/js/field_selection_widget_type.js"/>
+            <link rel="stylesheet" href="/dashboard_widgets/static/src/scss/widgets.scss"/>
+            <link rel="stylesheet" href="/dashboard_widgets/static/src/scss/many2many_dashboards.scss"/>
+        </xpath>
+    </template>
+</odoo>

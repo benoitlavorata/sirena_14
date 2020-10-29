@@ -1,0 +1,31 @@
+<odoo>
+    <record id="view_is_dashboard_form_count_inherit_dashboard_widgets_html" model="ir.ui.view">
+        <field name="name">view_is_dashboard_form_count_inherit_dashboard_widgets_html</field>
+        <field name="model">is.dashboard.widget</field>
+        <field name="inherit_id" ref="dashboard_widgets.view_is_dashboard_form_count"/>
+        <field name="arch" type="xml">
+            <!--hide goal tab-->
+            <data/>
+        </field>
+    </record>
+
+    <record id="view_is_dashboard_form_notes_inherit_dashboard_widgets_html" model="ir.ui.view">
+        <field name="name">view_is_dashboard_form_notes_inherit_dashboard_widgets_html</field>
+        <field name="model">is.dashboard.widget</field>
+        <field name="inherit_id" ref="dashboard_widgets.view_is_dashboard_form_count"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook//page[@name='display_settings']" position="before">
+                <page name="embed" string="Embed Content" attrs="{'invisible': [('display_mode', 'not in', ['embed_html', 'embed_iframe_html', 'embed_iframe_url'])]}">
+                    <group name="embed_html" string="Embed HTML" attrs="{'invisible': [('display_mode', 'not in', ['embed_html', 'embed_iframe_html'])]}">
+                        <field name="html" nolabel="1" widget="ace" options="{'mode': 'xml'}"/>
+                    </group>
+                    <group name="embed_url" attrs="{'invisible': [('display_mode', '!=', 'embed_iframe_url')]}">
+                        <group>
+                            <field name="iframe_url"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

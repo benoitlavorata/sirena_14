@@ -1,0 +1,30 @@
+<odoo>
+    <template id="render_dashboard_widget_table">
+        <t t-if="data['display_mode'] in ['table', 'record_list']">
+            <table class="table table-hover table-sm">
+                <thead>
+                    <tr>
+                        <th t-foreach="data['table']['headers']" t-as="header">
+                            <t t-esc="header['name']"/>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr t-foreach="data['table']['rows']" t-as="row">
+                        <t t-foreach="row" t-as="cell">
+                            <t t-set="action" t-value="cell.get('action') or {}"/>
+                            <td t-att-class="cell.get('class') or '' + ' ' + action.get('class', '')"
+                                t-att-data-name="action.get('name')"
+                                t-att-data-action_name="action.get('name')"
+                                t-att-data-type="action.get('type')"
+                                t-att-data-context="action.get('context')"
+                            >
+                                <t t-esc="cell['display_value']"/>
+                            </td>
+                        </t>
+                    </tr>
+                </tbody>
+            </table>
+        </t>
+    </template>
+</odoo>

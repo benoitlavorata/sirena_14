@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <record id="sale.action_quotations" model="ir.actions.act_window">
+            <field name="domain">[('state','in',('draft','sent','cancel', 'revise'))]</field>
+        </record>
+
+         <record id="sale.action_orders" model="ir.actions.act_window">
+            <field name="domain">[('state', 'not in', ('draft', 'sent', 'cancel', 'revise'))]</field>
+            <field name="context">{'show_sale': True, 'sale_order': True}</field>
+        </record>
+
+        <record id="view_sale_order_form" model="ir.ui.view">
+            <field name="name">acs.sale.order</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <button name="action_quotation_send" position="after">
+                    <button name="revise_sale_order" states="draft,sent,cancel" type="object" string="Revise"/>
+                </button>
+                <field name="payment_term_id" position="after">
+                    <field name="revised_so_id" readonly="1" attrs="{'invisible': [('revised_so_id', '=', False)]}"/>
+                    <field name="new_revised_so_id" readonly="1" attrs="{'invisible': [('new_revised_so_id', '=', False)]}"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</odoo>

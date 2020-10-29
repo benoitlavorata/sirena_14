@@ -1,0 +1,32 @@
+DATE_RANGE_TYPES = [
+    ('dashboard', 'Date on dashboard'),
+    ('today', 'Today'),
+    ('yesterday', 'Yesterday'),
+    ('this_week_monday_friday', 'This Week (Monday-Friday)'),
+    ('this_week_monday_sunday', 'This Week (Monday-Sunday)'),
+    ('this_week_sunday_saturday', 'This Week (Sunday-Saturday)'),
+    ('this_month', 'This Month'),
+    ('this_year', 'This Year'),
+    ('last_x_days', 'Last X Days'),
+    ('last_x_months', 'Last X Months'),
+    ('last_x_years', 'Last X Years'),
+    ('last_month', 'Last Month'),
+    ('last_month_to_date', 'Last Month To Date'),
+    ('last_year', 'Last Year'),
+    ('last_year_to_date', 'Last Year To Date'),
+    ('custom', 'Custom'),
+    ('current_goal', 'Current Goal'),
+    ('next_x_days', 'Next X Days'),
+    ('next_x_months', 'Next X Months'),
+    ('next_x_years', 'Next X Years'),
+    ('this_plus_next_x_months', 'This Month + Next X Months'),
+]
+
+SINGLE_DATE_RANGE_OPERATORS = [
+    ('=', 'On'),
+    ('!=', 'Not On'),
+    ('>', 'After'),
+    ('>=', 'On or After'),
+    ('<', 'Before'),
+    ('<=', 'On or Before'),
+]

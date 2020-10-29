@@ -1,0 +1,47 @@
+<odoo>
+    <template id="render_dashboard_widget_card">
+        <t t-if="data['display_mode'] == 'card'">
+            <div class="o_kanban_count_section" style="text-align: center;">
+                <h1 t-attf-class="oe_kanban_action count #{ data['kanban_class_count'] }" data-type="object" data-name="action_open_data" t-attf-data-context="{'dashboard_widget_id': #{data['widget_id']}}">
+                    <t t-esc="data['count_display']" />
+                    <t t-if="data['widget_type'] == 'count_over_total'">
+                        /
+                        <span data-type="object" data-name="action_open_data_query_2" t-attf-data-context="{'dashboard_widget_id': #{data['widget_id']}}" class="button_as_text oe_kanban_action">
+                            <t t-esc="data['total_display']" />
+                        </span>
+                    </t>
+                </h1>
+                <div t-if="data['has_forecast_1'] and data['show_expected_1']" t-attf-class="expected #{ data['kanban_class_expected'] }">
+                    <t t-esc="data['show_expected_1_label']"/><t t-esc="data['expected_count_display']" />
+                </div>
+                <div t-if="data['query_1_config_enable_goal'] and data['show_goal_1']" t-attf-class="goal #{ data['kanban_class_goal'] }">
+                    <t t-esc="data['show_goal_1_label']"/><t t-esc="data['current_goal_count_display']" />
+                </div>
+                <div t-if="data['query_1_config_enable_goal'] and data['show_variation_1']" t-attf-class="variation #{ data['kanban_class_variation'] }">
+                    <t t-esc="data['show_variation_1_label']"/><t t-esc="data['goal_count_variance_display']"/>
+                </div>
+                <div t-if="data['has_forecast_1'] and data['show_forecast_1']" t-attf-class="forecast #{ data['kanban_class_forecast'] }">
+                    <t t-esc="data['show_forecast_1_label']"/><t t-esc="data['forecast_count_display']"/>
+                </div>
+                <div t-if="data['has_forecast_1'] and data['query_1_config_enable_goal'] and data['show_forecast_1'] and data['show_forecasted_variation_1']" t-attf-class="forecasted_variation #{ data['kanban_class_forecasted_variation'] }">
+                    <t t-esc="data['show_forecasted_variation_1_label']"/><t t-esc="data['goal_forecast_count_variance_display']"/>
+                </div>
+                <div t-if="data['has_forecast_2'] and data['show_expected_2']" t-attf-class="expected #{ data['kanban_class_expected'] }">
+                    <t t-esc="data['show_expected_2_label']"/><t t-esc="data['expected_total_display']" />
+                </div>
+                <div t-if="data['query_2_config_enable_goal'] and data['show_goal_2']" t-attf-class="goal #{ data['kanban_class_goal'] }">
+                    <t t-esc="data['show_goal_2_label']"/><t t-esc="data['current_goal_total_display']" />
+                </div>
+                <div t-if="data['query_2_config_enable_goal'] and data['show_variation_2']" t-attf-class="variation #{ data['kanban_class_variation'] }">
+                    <t t-esc="data['show_variation_2_label']"/><t t-esc="data['goal_total_variance_display']"/>
+                </div>
+                <div t-if="data['has_forecast_2'] and data['show_forecast_2']" t-attf-class="forecast #{ data['kanban_class_forecast'] }">
+                    <t t-esc="data['show_forecast_2_label']"/><t t-esc="data['forecast_total_display']"/>
+                </div>
+                <div t-if="data['has_forecast_2'] and data['query_2_config_enable_goal'] and data['show_forecast_2'] and data['show_forecasted_variation_2']" t-attf-class="forecasted_variation #{ data['kanban_class_forecasted_variation'] }">
+                    <t t-esc="data['show_forecasted_variation_2_label']"/><t t-esc="data['goal_forecast_total_variance_display']"/>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

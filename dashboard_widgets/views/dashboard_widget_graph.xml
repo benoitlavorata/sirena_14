@@ -1,0 +1,105 @@
+<odoo>
+    <record id="view_is_dashboard_form_graph" model="ir.ui.view">
+        <field name="name">view_is_dashboard_form_graph</field>
+        <field name="model">is.dashboard.widget</field>
+        <field name="inherit_id" ref="view_is_dashboard_form_count"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='query_1_config_measure_field_id']/.." position="after">
+                <label string="Group By" for="chart_1_config_aggregate_field_id"/>
+                <div attrs2222="{'invisible': ['|', ('query_1_config_model_id', '=', False),('display_mode', '!=', 'graph')]}" cols="2">
+                    <field name="chart_1_config_aggregate_operator_supported" invisible="1"/>
+                    <field name="chart_1_config_aggregate_field_id" domain="([('model_id', '=', query_1_config_model_id),('store', '=', True)])" attrs="{'required': [('display_mode', '=', 'graph'),('query_1_config_model_id', '!=', False)], 'readonly': [('locked', '=', True)]}" options="{'no_create': True, 'no_open': True}" class="oe_inline"/>
+                    <div style="display: inline" attrs="{'invisible': [('chart_1_config_aggregate_operator_supported', '=', False)]}">
+                        (<field name="chart_1_config_aggregate_operator" attrs="{'readonly': [('locked', '=', True)]}" class="oe_inline"/>)
+                    </div>
+                </div>
+
+                <label string="Second Group By" for="chart_1_config_aggregate2_field_id"/>
+                <div attrs2222="{'invisible': ['|','|',('chart_1_config_aggregate_field_id', '=', False),('display_mode', '!=', 'graph')]}" cols="2">
+                    <field name="chart_1_config_aggregate2_operator_supported" invisible="1"/>
+                    <field name="chart_1_config_aggregate2_field_id" domain="([('model_id', '=', query_1_config_model_id),('store', '=', True)])" attrs="{'readonly': [('locked', '=', True)]}" options="{'no_create': True, 'no_open': True}" class="oe_inline"/>
+                    <div style="display: inline" attrs="{'invisible': [('chart_1_config_aggregate2_operator_supported', '=', False)]}">
+                        (<field name="chart_1_config_aggregate2_operator" attrs="{'readonly': [('locked', '=', True)]}" class="oe_inline" />)
+                    </div>
+                </div>
+
+                <label for="query_1_config_context" groups="base.group_no_one"/>
+                <div groups="base.group_no_one">
+                    <field name="query_1_config_context"/>
+                </div>
+
+                <field name="query_1_config_accumulative" attrs="{'invisible': [('display_mode', '!=', 'graph')]}"/>
+
+                <label for="chart_1_config_sort_field_id" string="Order By"/>
+                <div cols="2">
+                    <field name="chart_1_config_sort_field_id" class="oe_inline" domain="([('model_id', '=', query_1_config_model_id),('store', '=', True)])" options="{'no_create': True, 'no_open': True}"/>
+                    <div style="display: inline" attrs="{'invisible': [('chart_1_config_sort_field_id', '=', False)]}">
+                        (<field name="chart_1_config_sort_descending"/> <label for="chart_1_config_sort_descending" string="Descending"/>)
+                    </div>
+                </div>
+                <field name="chart_1_config_sort_default_by_label" attrs="{'invisible': [('chart_1_config_sort_field_id', '!=', False)]}" groups="base.group_no_one"/>
+                <field name="chart_1_config_show_average_dataset" string="Show Average Dataset"/>
+
+            </xpath>
+            <xpath expr="//field[@name='query_2_config_measure_field_id']/.." position="after">
+                <label string="Group By" for="chart_2_config_aggregate_field_id"/>
+                <div>
+                    <field name="chart_2_config_aggregate_field_id" domain="([('model_id', '=', query_2_config_model_id),('store', '=', True)])" attrs="{'required': [('display_mode', '=', 'graph'),('query_2_config_model_id', '!=', False)], 'invisible': [('query_2_config_model_id', '=', False)], 'readonly': [('locked', '=', True)]}" options="{'no_create': True, 'no_open': True}" class="oe_inline"/>
+                    <field name="chart_2_config_aggregate_operator_supported" invisible="1"/>
+                    <div style="display: inline" attrs="{'invisible': ['|', ('chart_2_config_aggregate_operator_supported', '=', False), ('chart_2_config_aggregate_field_id', '=', False)]}">
+                        (<field name="chart_2_config_aggregate_operator" attrs="{'readonly': [('locked', '=', True)]}" class="oe_inline"/>)
+                    </div>
+                </div>
+
+                <label string="Second Group By" for="chart_2_config_aggregate2_field_id"/>
+                <div>
+                    <field name="chart_2_config_aggregate2_field_id" domain="([('model_id', '=', query_2_config_model_id),('store', '=', True)])" attrs="{'readonly': [('locked', '=', True)]}" options="{'no_create': True, 'no_open': True}" class="oe_inline"/>
+                    <field name="chart_2_config_aggregate2_operator_supported" invisible="1"/>
+                    <div style="display: inline" attrs="{'invisible': [('chart_2_config_aggregate2_operator_supported', '=', False)]}">
+                        (<field name="chart_2_config_aggregate2_operator" attrs="{'readonly': [('locked', '=', True)]}" class="oe_inline"/>)
+                    </div>
+                </div>
+
+                <label for="query_2_config_context" groups="base.group_no_one"/>
+                <div groups="base.group_no_one">
+                    <field name="query_2_config_context"/>
+                </div>
+
+                <field name="query_2_config_accumulative" attrs="{'invisible': [('display_mode', '!=', 'graph')]}"/>
+
+                <label for="chart_2_config_sort_field_id" string="Order By"/>
+                <div cols="2">
+                    <field name="chart_2_config_sort_field_id" class="oe_inline" domain="([('model_id', '=', query_2_config_model_id),('store', '=', True)])" options="{'no_create': True, 'no_open': True}"/>
+                    <div style="display: inline" attrs="{'invisible': [('chart_2_config_sort_field_id', '=', False)]}">
+                        (<field name="chart_2_config_sort_descending"/> <label for="chart_2_config_sort_descending" string="Descending"/>)
+                    </div>
+                </div>
+                <field name="chart_2_config_sort_default_by_label" attrs="{'invisible': [('chart_2_config_sort_field_id', '!=', False)]}" groups="base.group_no_one" string="Chart Sort By Group by Label (or value)"/>
+                <field name="chart_2_config_show_average_dataset" string="Show Average Dataset"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="dashboard_kanban_view_graph" model="ir.ui.view">
+        <field name="name">view_dashboard_widget_kanban_graph</field>
+        <field name="model">is.dashboard.widget</field>
+        <field name="inherit_id" ref="dashboard_kanban_view_abstract"/>
+        <field name="priority" eval="95"/>
+        <field name="arch" type="xml">
+            <xpath expr="//kanban" position="inside">
+                <field name="graph_type"/>
+            </xpath>
+            <xpath expr="//div[@name='dashboard_content']/.." position="after" >
+                <t t-call="widget_type_graph" t-if="record.display_mode.raw_value == 'graph' and record.graph_type.raw_value"/>
+            </xpath>
+            <xpath expr="templates" position="inside">
+                <t t-name="widget_type_graph">
+                    <h3 style="text-align: center"><t t-esc="record.name.raw_value"/></h3>
+                    <div class="o_kanban_graph_section dashboard_widget_graph">
+                        <field name="dashboard_data" t-att-graph_type="record.graph_type.raw_value" widget="dashboard_graph_chart_js"/>
+                    </div>
+                </t>
+            </xpath>
+        </field>
+    </record>
+</odoo>

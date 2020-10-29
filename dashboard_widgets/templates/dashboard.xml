@@ -1,0 +1,15 @@
+<odoo>
+    <template id="render_dashboard_widget">
+        <t t-if="data.get('error')">
+            <t t-esc="data.get('error')"/>
+        </t>
+        <t t-elif="not record.widget_hidden">
+            <t t-call="dashboard_widgets.render_dashboard_widget_card"/>
+            <t t-call="dashboard_widgets.render_dashboard_widget_table"/>
+
+            <t t-call="dashboard_widgets.render_dashboard_widget_notes"/>
+            <t t-call="dashboard_widgets.render_dashboard_widget_cache"/>
+            <t t-call="dashboard_widgets.render_dashboard_widget_embedded_content"/>
+        </t>
+    </template>
+</odoo>

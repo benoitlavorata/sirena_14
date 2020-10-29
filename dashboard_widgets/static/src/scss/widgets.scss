@@ -1,0 +1,201 @@
+.o_widget_kanban{
+    .o_kanban_record.kanban_row_break{
+        width: 100%;
+        min-width: initial;
+        //.o-flex(1,1, 100%);
+        height: 0px;
+    }
+}
+
+.widget_preview {
+    pointer-events: none;
+}
+
+.o_kanban_record.dashboard_main {
+    color: black;
+
+    h1, h2, h3, h4, h5, h6 {
+        color: black;
+    }
+
+    .note {
+        color: black;
+        padding: 6px;
+        text-align: center;
+    }
+
+    .bold {
+        font-weight: bolder;
+    }
+
+    .dashboard_widget {
+        .o_kanban_graph_section {
+            padding: 10px;
+
+            .o_graph_linechart {
+                //          height: 100%;
+                //          width: 100%;
+            }
+        }
+    }
+
+
+    .dashboard_widget_graph {
+
+        .o_field_widget{
+            height: 100%;
+            width: 100%;
+        }
+        .o_kanban_graph_section svg {
+            height: 250px !important;
+
+            g.nv-x.nv-axis {
+                transform: translateY(230px) !important;
+            }
+        }
+    }
+
+    /*
+
+    .o_kanban_dashboard_no_graph {
+        min-height: 250px !important;
+        margin-bottom: 0px !important;
+    }
+
+    .o_kanban_record .o_kanban_dashboard_no_graph {
+
+        font-size: 1.25em;
+
+        .o_dashboard_star_container {
+            width: 100%;
+            margin-bottom: 20px;
+
+            span.o_dashboard_star_title {
+                display: inline-block;
+                font-weight: bold;
+                text-align: right;
+                width: 100%;
+            }
+        }
+
+        .o_dashboard_star_container span.o_dashboard_star.fa.fa-star,
+        .o_dashboard_star_container span.o_dashboard_star.fa.fa-star-half-o,
+        .o_dashboard_star_container span.o_dashboard_star.fa.fa-star-o {
+            display: inline-block;
+            color: gold;
+            font-size: 1.5em;
+        }
+
+        .o_dashboard_star_half {
+            width: 50%;
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+    }
+    */
+}
+
+    .dashboard-content {
+        .o_kanban_count_section {
+            text-align: center;
+            color: black;
+
+            .goal {
+                font-size: small;
+            }
+            .variation {
+                font-size: small;
+            }
+            .forecast {
+                font-size: small;
+            }
+
+            .forecast-met,
+            .count-met,
+            .variation-met
+            .forecasted-variation-met
+            {
+                color: green;
+            }
+
+            .forecast-not-met,
+            .count-not-met,
+            .variation-not-met
+            .forecasted-variation-not-met
+            {
+                color: red;
+            }
+        }
+    }
+
+
+.button_as_text {
+    background: none!important;
+    color: inherit;
+    border: none;
+    padding: 0!important;
+    font: inherit;
+    cursor: pointer;
+}
+
+.o_widget_kanban {
+    $odoo-nb-ui-bg-color: 12;
+    $widget-bgcolor-0: white;
+    $widget-color-1: #F06050;
+    $widget-color-2: #F4A460;
+    $widget-color-3: #F7CD1F;
+    $widget-color-4: #6CC1ED;
+    $widget-color-5: #814968;
+    $widget-color-6: #EB7E7F;
+    $widget-color-7: #2C8397;
+    $widget-color-8: #475577;
+    $widget-color-9: #D6145F;
+    $widget-color-10: #30C381;
+    $widget-color-11: #9365B8;
+
+    $odoo-bgcolor-1: lighten($widget-color-1, 30%);
+    $odoo-bgcolor-2: lighten($widget-color-2, 30%);
+    $odoo-bgcolor-3: lighten($widget-color-3, 30%);
+    $odoo-bgcolor-4: lighten($widget-color-4, 30%);
+    $odoo-bgcolor-5: lighten($widget-color-5, 30%);
+    $odoo-bgcolor-6: lighten($widget-color-6, 30%);
+    $odoo-bgcolor-7: lighten($widget-color-7, 30%);
+    $odoo-bgcolor-8: lighten($widget-color-8, 30%);
+    $odoo-bgcolor-9: lighten($widget-color-9, 30%);
+    $odoo-bgcolor-10: lighten($widget-color-10, 30%);
+    $odoo-bgcolor-11: lighten($widget-color-11, 30%);
+
+    .oe_kanban_color_1 {
+        background-color: $odoo-bgcolor-1
+    }
+    .oe_kanban_color_2 {
+        background-color: $odoo-bgcolor-2
+    }
+    .oe_kanban_color_3 {
+        background-color: $odoo-bgcolor-3
+    }
+    .oe_kanban_color_4 {
+        background-color: $odoo-bgcolor-4
+    }
+    .oe_kanban_color_5 {
+        background-color: $odoo-bgcolor-5
+    }
+    .oe_kanban_color_6 {
+        background-color: $odoo-bgcolor-6
+    }
+    .oe_kanban_color_7 {
+        background-color: $odoo-bgcolor-7
+    }
+    .oe_kanban_color_8 {
+        background-color: $odoo-bgcolor-8
+    }
+    .oe_kanban_color_9 {
+        background-color: $odoo-bgcolor-9
+    }
+    .oe_kanban_color_10 {
+        background-color: $odoo-bgcolor-10
+    }
+    .oe_kanban_color_11 {
+        background-color: $odoo-bgcolor-11
+    }
+}

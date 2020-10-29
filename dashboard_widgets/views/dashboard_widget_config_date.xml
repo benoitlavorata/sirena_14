@@ -1,0 +1,48 @@
+<odoo>
+    <record model="ir.ui.view" id="view_is_dashboard_config_date_range_form">
+        <field name="name">view_is_dashboard_config_date_range_form</field>
+        <field name="model">is.dashboard.widget</field>
+        <field name="priority" eval="20"/>
+        <field name="arch" type="xml">
+            <form>
+                <field name="config_date_start" class="oe_inline"/>
+                -
+                <field name="config_date_end"  class="oe_inline"/>
+                <footer>
+                    <button name="action_config_update" string="Update" role="button" type="object" class="btn-primary"/>
+                    <button name="act_cancel" special="cancel" string="Cancel" role="button" type="object" class="btn-default"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="dashboard_kanban_view_config_date_range" model="ir.ui.view">
+        <field name="name">view_dashboard_widget_kanban_config_date</field>
+        <field name="model">is.dashboard.widget</field>
+        <field name="inherit_id" ref="dashboard_kanban_view_abstract"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='dashboard_content']" position="inside" >
+                <t t-call="widget_type_date_config"/>
+            </xpath>
+            <xpath expr="templates" position="inside">
+                <t t-name="widget_type_date_config" t-if="record.widget_type.raw_value == 'config_date_range'">
+                    <h3 style="text-align: center"><t t-esc="record.name.raw_value"/></h3>
+                    <div class="container o_kanban_card_content o_visible">
+                        <div class="o_kanban_count_section">
+                            <h3>
+                                <a class="oe-link" type="object" name="action_edit">
+                                    <field name="config_date_start" t-if="record.config_date_start.raw_value" />
+                                    <t t-if="!record.config_date_start.raw_value">all</t>
+                                    -
+                                    <field name="config_date_end" t-if="record.config_date_end.raw_value" />
+                                    <t t-if="!record.config_date_end.raw_value">all</t>
+                                    (edit)
+                                </a>
+                            </h3>
+                        </div>
+                    </div>
+                </t>
+            </xpath>
+        </field>
+    </record>
+</odoo>

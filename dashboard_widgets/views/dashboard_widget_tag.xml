@@ -1,0 +1,48 @@
+<odoo>
+    <record id="dashboard_widget_tag_tree" model="ir.ui.view">
+        <field name="name">dashboard.widget.tag.tree</field>
+        <field name="model">is.dashboard.widget.tag</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" />
+            </tree>
+        </field>
+    </record>
+    <record id="dashboard_widget_tag_form" model="ir.ui.view">
+        <field name="name">dashboard.widget.tag.form</field>
+        <field name="model">is.dashboard.widget.tag</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <!-- Header Section for Action Buttons and State Widget etc. -->
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <!-- Button Box Section -->
+                    </div>
+                    <div class="oe_title">
+                        <!-- Title Section -->
+                    </div>
+                    <!-- Content Section-->
+                    <group>
+                        <field name="name" />
+                    </group>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_dashboard_widget_tag" model="ir.actions.act_window">
+        <field name="name">Dashboard Tags</field>
+        <field name="res_model">is.dashboard.widget.tag</field>
+        <field name="view_mode">tree,form,kanban</field>
+    </record>
+
+    <menuitem id="menu_dashboard_tags"
+              parent="menu_dashboard_config"
+              sequence="20"
+              name="Dashboard Tags"
+              action="action_dashboard_widget_tag"/>
+
+</odoo>
