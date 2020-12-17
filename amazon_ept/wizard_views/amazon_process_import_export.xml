@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_amazon_process_import_export_ept" model="ir.ui.view">
+        <field name="name">Process Import/Export</field>
+        <field name="model">amazon.process.import.export</field>
+        <field name="arch" type="xml">
+            <form string="Import/Export">
+                <group>
+                    <group>
+                        <field name="seller_id" required="1"
+                               options="{'no_create':True,'no_create_edit': True}"/>
+                        <field name="selling_on"
+                               attrs="{'invisible':[('seller_id','=',False)]}"/>
+                        <field name="operations"
+                               attrs="{'invisible':[('selling_on','!=','FBM')]}"
+                               groups="amazon_ept.group_amazon_fbm_ept,amazon_ept.group_amazon_fba_and_fbm_ept"/>
+                        <field name="fba_operations"
+                               attrs="{'invisible':[('selling_on','!=','FBA')]}"
+                               groups="amazon_ept.group_amazon_fba_ept,amazon_ept.group_amazon_fba_and_fbm_ept"/>
+                        <field name="both_operations"
+                               attrs="{'invisible':[('selling_on','!=','fba_fbm')]}"/>
+                    </group>
+                    <group>
+                        <field name="amazon_program" invisible="1"/>
+                        <field name="is_another_soft_create_fba_inventory" invisible="1"/>
+                        <field name='instance_ids' widget="many2many_tags"
+                               options="{'no_create':True,'no_create_edit': True}"
+                               domain="[('seller_id','=',seller_id)]"
+                               attrs="{'invisible':[('fba_operations','not in',('Import_Pending_Orders')),
+                               ('operations','not in',('Export_Stock_From_Odoo_To_Amazon', 'Import_FBM_Shipped_Orders', 'Import_Missing_Unshipped_Orders',)),
+                               ('both_operations','not in',('Export_Price_From_Odoo_To_Amazon'))]}"/>
+
+                        <field name="is_allow_to_create_removal_order" invisible="1"/>
+                        <field name='instance_id'
+                               options="{'no_create':True,'no_create_edit': True}"
+                               domain="[('seller_id','=',seller_id)]"
+                               attrs="{'invisible':[('fba_operations','not in',('Create_Inbound_Shipment_Plan','Import Inbound Shipment')),
+                               ('both_operations','not in',('Sync_Active_Products'))],
+                               'required':['|',('fba_operations','in',('Create_Inbound_Shipment_Plan','Import Inbound Shipment')),
+                               ('both_operations','in',('Sync_Active_Products'))]}"/>
+                        <field name='order_removal_instance_id'
+                               options="{'no_create':True,'no_create_edit': True}"
+                               domain="[('seller_id','=',seller_id),('is_allow_to_create_removal_order','=',True)]"
+                               attrs="{'invisible':[('fba_operations','!=','removal_order_request')]}"/>
+                    </group>
+                </group>
+                <group>
+                    <p style="color: red; font-weight:600;">
+                        <field name="user_warning"
+                               attrs="{'invisible':[('user_warning','=',False)]}" readonly="1"/>
+                    </p>
+                </group>
+                <group>
+                    <group string="List settlement report"
+                           attrs="{'invisible':[('both_operations','!=','List_Settlement_Report')]}">
+                        <field name="report_start_date" widget="daterange"
+                               options="{'related_end_date': 'report_end_date'}"
+                               attrs="{'invisible':[('both_operations','!=','List_Settlement_Report')]}"/>
+                        <field name="report_end_date"
+                               widget="daterange"
+                               options="{'related_start_date': 'report_start_date'}"
+                               attrs="{'invisible':[('both_operations','!=','List_Settlement_Report')]}"/>
+                    </group>
+
+                    <group string="Import Rating" attrs="{'invisible':[('both_operations','!=','request_rating_report')]}"
+                           class="w-100">
+                        <label for="report_start_date" string="Date"/>
+                        <div class="d-inline-block">
+                            <field name="report_start_date" widget="daterange"
+                                   options="{'related_end_date': 'report_end_date'}" class="oe_inline"/>
+                            To
+                            <field name="report_end_date" widget="daterange"
+                                   options="{'related_start_date': 'report_start_date'}" class="oe_inline"/>
+                        </div>
+                    </group>
+
+                    <group string="Import VCS Tax Report" attrs="{'invisible':[('both_operations','!=','vcs_tax_report')]}"
+                           class="w-100">
+                        <label for="report_start_date" string="Date"/>
+                        <div class="d-inline-block">
+                            <field name="report_start_date" widget="daterange"
+                                   options="{'related_end_date': 'report_end_date'}" class="oe_inline"/>
+                            To
+                            <field name="report_end_date" widget="daterange"
+                                   options="{'related_start_date': 'report_start_date'}" class="oe_inline"/>
+                        </div>
+                    </group>
+
+                    <!--Add Operation Sync Active Product and Import Products in Amazon Operation
+                        @author - Deval Jagad (25/12/2019) -->
+                    <group string="Sync Active Products"
+                           attrs="{'invisible':[('both_operations','!=','Sync_Active_Products')]}">
+                        <field name="auto_create_product" widget="boolean_toggle"/>
+                        <field name="update_price_in_pricelist" widget="boolean_toggle"/>
+                    </group>
+                    <group string="Import Products"
+                           attrs="{'invisible':[('both_operations','!=','Import_Product')]}">
+                        <field name="choose_file" widget="binary" string="File Upload"
+                               filename="file_name"
+                               placeholder="File Upload"/>
+                        <field name="file_name" string="File Name" invisible="1"/>
+                        <field name="delimiter"/>
+                    </group>
+
+                    <group attrs="{'invisible':[('operations','!=','Update_Track_Number_And_Ship_Status')]}"
+                           groups="amazon_ept.group_amazon_fbm_ept">
+                    </group>
+                    <group string="Import FBM Shipped Orders"
+                           groups="amazon_ept.group_amazon_fbm_ept"
+                           attrs="{'invisible':[('operations','not in',['Import_FBM_Shipped_Orders', 'Import_Missing_Unshipped_Orders'])]}">
+                        <field name="fbm_order_updated_after_date" autocomplete="off"/>
+                    </group>
+                    <group groups="amazon_ept.group_amazon_fbm_ept"
+                           attrs="{'invisible':[('operations','!=','Export_Stock_From_Odoo_To_Amazon')]}">
+
+                    </group>
+                    <group groups="amazon_ept.group_amazon_fbm_ept"
+                           attrs="{'invisible':[('both_operations','!=','Export_Price_From_Odoo_To_Amazon')]}">
+
+                    </group>
+                    <!--                        <group string='Check Cancel Orders' groups="amazon_ept.group_amazon_fbm_ept"-->
+                    <!--                               attrs="{'invisible':[('operations','!=','Check_Cancel_Orders_FBM')]}">-->
+                    <!--                            <field name="updated_after_date"/>-->
+                    <!--                            <p attrs="{'invisible':[('operations','!=','Check_Cancel_Orders_FBM')]}">-->
+                    <!--                                *System will check the orders status in-->
+                    <!--                                Amazon for the selected instances-->
+                    <!--                                and if order is canceled in Amazon,-->
+                    <!--                                then system will cancel that order is Odoo too.*-->
+                    <!--                            </p>-->
+                    <!--                        </group>-->
+                    <group string='Import Pending Orders'
+                           groups="amazon_ept.group_amazon_fba_ept"
+                           attrs="{'invisible':[('fba_operations','!=','Import_Pending_Orders')]}">
+                        <field name="updated_after_date"/>
+                        <div class="position-absolute w-75 mt">
+                            <p attrs="{'invisible':[('fba_operations','!=','Import_Pending_Orders')]}"
+                               class="m-0">
+                                *System will check the orders status in
+                                Amazon for the selected seller and instances
+                                and if order is canceled in Amazon,
+                                then system will cancel that order is Odoo too.*
+                            </p>
+                        </div>
+                    </group>
+                    <group string="Shipping Report" groups="amazon_ept.group_amazon_fba_ept"
+                           attrs="{'invisible':[('fba_operations','!=','Shipment_Report')]}"
+                           class="w-100">
+                        <label for="report_start_date" string="Date"/>
+                        <div class="d-inline-block">
+                            <field name="report_start_date" widget="daterange"
+                                   options="{'related_end_date': 'report_end_date'}"
+                                   class="oe_inline"/>
+                            To
+                            <field name="report_end_date" widget="daterange"
+                                   options="{'related_start_date': 'report_start_date'}"
+                                   class="oe_inline"/>
+                        </div>
+                        <field name="is_split_report" invisible="1"/>
+                        <field name="split_report_by_days"
+                               attrs="{'invisible':[('is_split_report','=',False)]}"/>
+                    </group>
+                    <group string="Stock Adjustment Report"
+                           groups="amazon_ept.group_amazon_fba_ept"
+                           attrs="{'invisible':[('fba_operations','!=','Stock_Adjustment_Report')]}"
+                           class="w-100">
+                        <label for="report_start_date" string="Date"/>
+                        <div class="d-inline-block">
+                            <field name="report_start_date" widget="daterange"
+                                   options="{'related_end_date': 'report_end_date'}"
+                                   class="oe_inline"/>
+                            To
+                            <field name="report_end_date" widget="daterange"
+                                   options="{'related_start_date': 'report_start_date'}"
+                                   class="oe_inline"/>
+                        </div>
+                    </group>
+                    <group string="Removal order Report"
+                           groups="amazon_ept.group_amazon_fba_ept"
+                           attrs="{'invisible':[('fba_operations','!=','Removal_Order_Report')]}"
+                           class="w-100">
+                        <label for="report_start_date" string="Date"/>
+                        <div class="d-inline-block">
+                            <field name="report_start_date" widget="daterange"
+                                   options="{'related_end_date': 'report_end_date'}"
+                                   class="oe_inline"/>
+                            To
+                            <field name="report_end_date" widget="daterange"
+                                   options="{'related_start_date': 'report_start_date'}"
+                                   class="oe_inline"/>
+                        </div>
+                    </group>
+                    <group string="Customer Return Report"
+                           groups="amazon_ept.group_amazon_fba_ept"
+                           attrs="{'invisible':[('fba_operations','!=','Customer_Return_Report')]}"
+                           class="w-100">
+                        <label for="report_start_date" string="Date"/>
+                        <div class="d-inline-block">
+                            <field name="report_start_date" widget="daterange"
+                                   options="{'related_end_date': 'report_end_date'}"
+                                   class="oe_inline"/>
+                            To
+                            <field name="report_end_date" widget="daterange"
+                                   options="{'related_start_date': 'report_start_date'}"
+                                   class="oe_inline"/>
+                        </div>
+                    </group>
+                    <group string="Live inventory Report"
+                           groups="amazon_ept.group_amazon_fba_ept"
+                           attrs="{ 'invisible':['|',('fba_operations','!=','fba_live_inventory_report'),('is_another_soft_create_fba_inventory','=',False)]}"
+                           class="w-100">
+                        <label for="report_start_date" string="Date"/>
+                        <div class="d-inline-block">
+                            <field name="report_start_date" widget="daterange"
+                                   options="{'related_end_date': 'report_end_date'}"
+                                   class="oe_inline"/>
+                            To
+                            <field name="report_end_date" widget="daterange"
+                                   options="{'related_start_date': 'report_start_date'}"
+                                   class="oe_inline"/>
+                        </div>
+                    </group>
+                    <group string="Import Inbound Shipment"
+                           groups="amazon_ept.group_amazon_fba_ept"
+                           attrs="{'invisible':[('fba_operations','!=','Import Inbound Shipment')]}"
+                           class="w-100">
+                        <div class="d-inline-block">
+                            <group>
+                                <field name="shipment_id"
+                                       attrs="{'required':[('fba_operations','=','Import Inbound Shipment')]}"/>
+                                <field name="from_warehouse_id"
+                                       attrs="{'required':[('fba_operations','=','Import Inbound Shipment')]}"/>
+                                <!--<field name="sync_product" attrs="{'required':[('fba_operations','=','Import Inbound Shipment')]}"/>-->
+                            </group>
+
+                        </div>
+
+                    </group>
+                </group>
+                <footer>
+                    <!--Add Button For Download Sample Attachment for Operation Import Product
+                        @author - Deval Jagad (25/12/2019) -->
+                    <button string="Download Sample Attachment"
+                            name="download_sample_attachment" type="object"
+                            class="btn-primary"
+                            attrs="{'invisible':[('both_operations','!=','Import_Product')]}"/>
+                    <button name="import_export_processes" string="Execute" type="object"
+                            class="oe_highlight"/>
+                    <button string="Cancel" class="oe_highlight" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_wizard_amazon_import_export_operations" model="ir.actions.act_window">
+        <field name="name">Operations</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">amazon.process.import.export</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_main_amazon_import_process_ept" name="Operations"
+              action="action_wizard_amazon_import_export_operations"
+              parent="amazon_ept.amazon_instance_menu_item" sequence="14"/>
+</odoo>

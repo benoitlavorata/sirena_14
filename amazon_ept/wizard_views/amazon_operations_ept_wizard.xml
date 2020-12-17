@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="amazon_import_product_wizard" model="ir.ui.view">
+        <field name="name">amazon.import.product.wizard</field>
+        <field name="model">amazon.import.product.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Choose File To Import Stock">
+                <group>
+                    <p>
+                        Select Seller, and choose file for import products.
+                    </p>
+                </group>
+                <group>
+                    <field name="seller_id" options="{'no_create':True,'no_create_edit': True}"/>
+                    <field name="choose_file" widget="binary" string="File Upload" filename="file_name"
+                           placeholder="File Upload"/>
+                    <field name="file_name" string="File Name" invisible="1"/>
+                    <field name="delimiter"/>
+                </group>
+                <group>
+                    <button string="Download Sample Attachment" name="download_sample_attachment" type="object"
+                            class="btn-primary"/>
+                </group>
+                <footer>
+                    <button name="import_csv_file" string="Import Product" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="amazon_import_product_wizard_action" model="ir.actions.act_window">
+        <field name="name">Choose File</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">amazon.import.product.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+    <menuitem id="menu_item_amazon_import_products_ept" name="Import Product"
+              parent="amazon_products_child_products_menu" sequence="5"
+              action="amazon_import_product_wizard_action"/>
+</odoo>
